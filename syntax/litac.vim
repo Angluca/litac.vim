@@ -9,23 +9,22 @@ syn keyword litacKeyword private
 syn keyword litacKeyword super
 syn keyword litacKeyword type
 syn keyword litacKeyword var const
-syn keyword litacInclude public
+syn keyword litacInclude public internal
 
 syn keyword litacInclude import export
 
 syn keyword litacLabel case match
 syn keyword litacRepeat for while
-syn keyword litacStatement break continue return
+syn keyword litacStatement break continue return goto defer
 syn keyword litacConditional if else
 
 syn keyword litacType Array
 syn keyword litacType bool byte
-syn keyword litacType false
 syn keyword litacType int
 syn keyword litacType long
 syn keyword litacType null
 syn keyword litacType string
-syn keyword litacType void true
+syn keyword Boolean void true false
 
 syn match litacOperator "\v\-\>"
 syn match litacOperator "\v\=\>"
@@ -90,7 +89,7 @@ hi def link litacCharacter             Character
 hi def link litacSpecialChar           SpecialChar
 hi def link litacException             Exception
 
-syn match litacType     '\(:\s*\(using\s*\)*\**\(\[.*\]\)*\)\@<=\w\([0-9a-zA-Z\* ]\)*'
+syn match litacType     '\(:\s*\(using\s*\)*\**\(\[.*\]\)*\)\@<=\w\([0-9a-zA-Z_\* ]\)*'
 syn match PreProc        '[@]'
 syn match litacSymbol    '[,;]'
 syn match Operator       '[\+\-\%=\/\^\&\*!?><\$|]'
@@ -107,7 +106,7 @@ syn match PreProc  '\(^\s*\[\s*\)\@<=\w\w*\ze\s*.*\]'
 syn match Repeat   "\([^\.]\.\)\@<=\w\w*\(\(\[.*\]\)*\s*(\)\@!"
 syn match Float    "\([0-9]\+\.\)\@<=[0-9][0-9]*\(f32\|f64\)*"
 syn match litacThis '\(\w\)\@<!this\(\w\)\@!'
-syn match litacType '\(\sas\s\+\W*\)\@<=\w\+'
+syn match litacType '\(\sas\s\+\W*\)\@<=\w\w*'
 "syn match litacType '\(\(\W\|^\)\(var\|const\|def\)\s\+[^=]*\w\s*)*\s*:\s*\W*\|^\W*\w\w*\s*:\w*\)\@<=\w\+'
 syn match litacTypedef  contains=litacTypedef "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 syn match litacFunc    "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
@@ -117,12 +116,16 @@ syn keyword litacKeyword union nextgroup=litacType skipwhite skipempty contained
 "syn match litacFunc    "\w\(\w\)*\ze\(\[.*\]\s*\)*\s*("
 syn match litacType    "\w\(\w\)*<"he=e-1,me=e-1 " foo<T>();
 "syn match litacType    "\w\(\w\)*\ze\(<.*>\s*\)*::[^<]"
-syn match litacType    "\(->\s*\)\@<=\w\(\w\)*"
+"syn match litacType    "\(->\s*\)\@<=\w\(\w\)*"
 syn match litacFunc   "[0-9a-zA-Z_@]*\w\w*\(\(<.*>\s*\)*\(\[.*\]\)*\s*(\)\@="
+syn match Repeat        "\([^\.]\.\)\@<=\w\w*\(\(\[.*\]\)*\_s*\)\@!"
+syn match litacKeyword  "@\w\(\w\)*"
+syn match litacType  "\(const\s\+\)\@<=\w\(\w\)*"
 
 syn region  litacComment start="/\*" end="\*/" contains=litacTodo,@Spell
 syn match   litacComment "//.*$" contains=litacTodo,@Spell
 syn region  SpecialComment start="\"\"\"" end="\"\"\"" contains=litacTodo,@Spell
 syn keyword litacKeyword func using
+syn keyword litacType  as
 
 let b:current_syntax = "litac"
